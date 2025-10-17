@@ -1,20 +1,33 @@
 package com.warehouse;
 
 /**
- * Class Name: Product
- * Description: Represents a single product in the warehouse.
+ * Represents a single product in the warehouse inventory.
+ * Each product has a unique auto-generated ID, name, quantity,
+ * and a reorder threshold to trigger restock alerts.
+ * 
  * Author: Musahid Mansuri
- * Date: 16-Oct-2025
+ * Date: 17-Oct-2025
  */
 
 public class Product {
-    private int id;                // Unique ID for product
-    private String name;           // Product name
-    private int quantity;          // Current stock quantity
-    private int reorderThreshold;  // Threshold to trigger restock alert
 
-    public Product(int id, String name, int quantity, int reorderThreshold) {
-        this.id = id;
+    // Static counter for auto-generating unique product IDs
+    private static int idCounter = 1;
+
+    // Product attributes
+    private int id;
+    private String name;
+    private int quantity;
+    private int reorderThreshold;
+
+    /**
+     * Constructs a new Product with auto-generated ID.
+     * @param name product name
+     * @param quantity initial stock quantity
+     * @param reorderThreshold minimum quantity before restock alert
+     */
+    public Product(String name, int quantity, int reorderThreshold) {
+        this.id = idCounter++;
         this.name = name;
         this.quantity = quantity;
         this.reorderThreshold = reorderThreshold;
@@ -37,7 +50,7 @@ public class Product {
         return reorderThreshold;
     }
 
-    // Setters
+    // Setters (ID excluded as it is auto-generated)
     public void setName(String name) {
         this.name = name;
     }
@@ -50,14 +63,12 @@ public class Product {
         this.reorderThreshold = reorderThreshold;
     }
 
-    // toString method for displaying product info
+    /**
+     * Returns a string representation of the product details.
+     */
     @Override
     public String toString() {
-        return "Product{" +
-               "id=" + id +
-               ", name='" + name + '\'' +
-               ", quantity=" + quantity +
-               ", reorderThreshold=" + reorderThreshold +
-               '}';
+        return String.format("Product [ID=%d, Name=%s, Quantity=%d, ReorderThreshold=%d]",
+                id, name, quantity, reorderThreshold);
     }
 }
