@@ -4,21 +4,23 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Manages warehouse inventory operations.
+ * Manages warehouse inventory operations with alert notifications.
  * Responsible for adding products, updating stock, and alerts.
  * Author: Musahid Mansuri
- * Date: 17-Oct-2025
+ * Date: 18-Oct-2025
  */
 public class Warehouse {
 
-    // In-memory list to store products
-    private List<Product> products;
+    private List<Product> products;      // In-memory list to store products
+    private AlertService alertService;   // Alert service for low stock notifications
 
     /**
-     * Constructor initializes the products list.
+     * Constructor initializes the products list and sets AlertService.
+     * @param alertService service used to notify low stock
      */
-    public Warehouse() {
-        products = new ArrayList<Product>();
+    public Warehouse(AlertService alertService) {
+    	this.products = new ArrayList<Product>();
+        this.alertService = alertService;
     }
 
     /**
@@ -57,7 +59,7 @@ public class Warehouse {
 
     /**
      * Decreases the stock of a product when an order is fulfilled.
-     * Triggers low stock alert if quantity falls below reorder threshold.
+     * Triggers low stock alert via AlertService if quantity falls below reorder threshold.
      * @param productId the unique ID of the product
      * @param quantity the number of units to fulfill
      */
@@ -71,9 +73,9 @@ public class Warehouse {
                 p.setQuantity(p.getQuantity() - quantity);
                 System.out.println(quantity + " units of " + p.getName() + " fulfilled. Remaining: " + p.getQuantity());
 
-                // Low stock alert
+                // Low stock alert using AlertService
                 if (p.getQuantity() < p.getReorderThreshold()) {
-                    System.out.println("ALERT: Low stock for " + p.getName() + " – only " + p.getQuantity() + " left!");
+                    alertService.notifyLowStock(p.getName(), p.getQuantity());
                 }
                 return;
             }

@@ -1,27 +1,36 @@
 package com.warehouse;
 
 /**
- * Test class to simulate Day 2 operations of Warehouse Inventory Tracker.
+ * Test class for Day 4: Warehouse Inventory Tracker with AlertService
  * Author: Musahid Mansuri
- * Date: 17-Oct-2025
+ * Date: 18-Oct-2025
  */
 public class TestWarehouse {
 
     public static void main(String[] args) {
-        // Step 1: Create warehouse
-        Warehouse warehouse = new Warehouse();
 
-        // Step 2: Add products
+        // Step 1: Implement AlertService with anonymous class
+        AlertService alertService = new AlertService() {
+            @Override
+            public void notifyLowStock(String productName, int quantity) {
+                System.out.println("ALERT: Low stock for " + productName + " – only " + quantity + " left!");
+            }
+        };
+
+        // Step 2: Create warehouse with alert service
+        Warehouse warehouse = new Warehouse(alertService);
+
+        // Step 3: Add products
         Product laptop = new Product("Laptop", 0, 5);
         Product mouse = new Product("Mouse", 10, 3);
         warehouse.addProduct(laptop);
         warehouse.addProduct(mouse);
 
-        // Step 3: Receive shipment
-        warehouse.receiveShipment(1, 10); // Laptop +10
+        // Step 4: Receive shipment
+        warehouse.receiveShipment(laptop.getId(), 10); // Laptop +10
 
-        // Step 4: Fulfill orders
-        warehouse.fulfillOrder(1, 6);     // Laptop -6, triggers alert (10-6=4 < 5)
-        warehouse.fulfillOrder(2, 5);     // Mouse -5, no alert (10-5=5 > 3)
+        // Step 5: Fulfill orders
+        warehouse.fulfillOrder(laptop.getId(), 6);     // Laptop -6, triggers alert
+        warehouse.fulfillOrder(mouse.getId(), 5);      // Mouse -5, no alert
     }
 }
