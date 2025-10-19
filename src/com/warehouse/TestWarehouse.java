@@ -1,23 +1,18 @@
 package com.warehouse;
 
 /**
- * Test class for Day 4: Warehouse Inventory Tracker with AlertService
+ * Test class for Day 5: Warehouse Inventory Tracker with DynamicAlertService
  * Author: Musahid Mansuri
- * Date: 18-Oct-2025
+ * Date: 19-Oct-2025
  */
 public class TestWarehouse {
 
     public static void main(String[] args) {
 
-        // Step 1: Implement AlertService with anonymous class
-        AlertService alertService = new AlertService() {
-            @Override
-            public void notifyLowStock(String productName, int quantity) {
-                System.out.println("ALERT: Low stock for " + productName + " – only " + quantity + " left!");
-            }
-        };
+        // Step 1: Implement DynamicAlertService
+        AlertService alertService = new DynamicAlertService();
 
-        // Step 2: Create warehouse with alert service
+        // Step 2: Create warehouse with dynamic alert service
         Warehouse warehouse = new Warehouse(alertService);
 
         // Step 3: Add products
@@ -30,7 +25,7 @@ public class TestWarehouse {
         warehouse.receiveShipment(laptop.getId(), 10); // Laptop +10
 
         // Step 5: Fulfill orders
-        warehouse.fulfillOrder(laptop.getId(), 6);     // Laptop -6, triggers alert
+        warehouse.fulfillOrder(laptop.getId(), 6);     // Laptop -6, triggers dynamic alert
         warehouse.fulfillOrder(mouse.getId(), 5);      // Mouse -5, no alert
     }
 }
