@@ -3,23 +3,43 @@ package com.warehouse;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Warehouse represents a single warehouse inventory.
+ * Stores products and handles stock operations.
+ * Now supports warehouse name and location.
+ */
 public class Warehouse {
 
+    private String name;        // Warehouse name
+    private String location;    // Warehouse location
     private List<Product> products;
     private AlertService alertService;
 
-    public Warehouse(AlertService alertService) {
+    /**
+     * Constructor with warehouse name, location, and alert service.
+     */
+    public Warehouse(String name, String location, AlertService alertService) {
+        this.name = name;
+        this.location = location;
         this.products = new ArrayList<Product>();
         this.alertService = alertService;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 
     public void addProduct(Product product) {
         products.add(product);
         System.out.println("Product added: " + product);
-    }
-
-    public List<Product> getProducts() {
-        return products;
     }
 
     public void printAllProducts() {
@@ -35,7 +55,6 @@ public class Warehouse {
                     p.getId(), p.getName(), p.getQuantity(), p.getReorderThreshold());
         }
     }
-
 
     public void receiveShipment(int productId, int quantity) {
         for (Product p : products) {
