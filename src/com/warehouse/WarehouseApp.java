@@ -3,19 +3,14 @@ package com.warehouse;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-/**
- * WarehouseApp is the main application class.
- * Supports multiple warehouses with name, location, and standard inventory operations.
- */
 public class WarehouseApp {
 
     private final Scanner scanner;
     private final WarehouseManager warehouseManager;
 
-    /**
-     * Constructor initializes scanner and warehouse manager.
-     * No default warehouse is added to start with 0 warehouses.
-     */
+    // Default file name for persistence
+    private static final String FILE_NAME = "inventory.txt";
+
     public WarehouseApp() {
         this.scanner = new Scanner(System.in);
         this.warehouseManager = new WarehouseManager();
@@ -23,8 +18,11 @@ public class WarehouseApp {
 
     public void start() {
         System.out.println("=== Warehouse Inventory Tracker (Multiple Warehouses) ===");
-        boolean running = true;
 
+        // Load data from file at startup
+        warehouseManager.loadFromFile(FILE_NAME);
+
+        boolean running = true;
         while (running) {
             printMenu();
             int choice = readInt("Enter your choice: ");
@@ -50,7 +48,10 @@ public class WarehouseApp {
                     break;
                 case 7:
                     running = false;
-                    System.out.println("Exiting application. Goodbye!");
+                    System.out.println("Exiting application. Saving data...");
+                    // Save data to file on exit
+                    warehouseManager.saveToFile(FILE_NAME);
+                    System.out.println("Goodbye!");
                     break;
                 default:
                     System.out.println("Invalid choice. Enter 1-7.");

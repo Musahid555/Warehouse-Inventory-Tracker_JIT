@@ -1,0 +1,10 @@
+Zara,Khargone
+1,Pant,10,5
+2,Sirt,10,1
+###
+Zudio,Khargone
+3,Laptop,10,5
+###
+Dmart,Khargone
+4,Mobile,10,5
+###
